@@ -9,7 +9,6 @@ import {
   Calendar, 
   User, 
   RefreshCw,
-  FileText,
   FileSpreadsheet,
   Printer,
   SlidersHorizontal

@@ -11,7 +11,6 @@ import {
   WifiOff, 
   RefreshCw, 
   User, 
-  Settings, 
   TrendingUp, 
   ShoppingCart, 
   BookOpen, 
@@ -20,8 +19,7 @@ import {
   LogOut,
   Package,
   Search,
-  ArrowRight,
-  Sparkles
+  ArrowRight
 } from 'lucide-react';
 
 interface AppLayoutProps {

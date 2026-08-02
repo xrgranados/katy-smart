@@ -40,7 +40,7 @@ export function ConsultaKiosco() {
   const [cuentaData, setCuentaData] = useState<KioscoResponse | null>(null);
   const [timeLeft, setTimeLeft] = useState<number>(15);
   
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   // Inactivity timer effect
   useEffect(() => {
