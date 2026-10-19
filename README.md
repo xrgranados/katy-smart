@@ -24,9 +24,8 @@
    - Registro de cargos y abonos con trazabilidad de qué familiar/persona autorizada realizó el movimiento.
    - Períodos de corte altamente personalizables por cliente (por defecto quincenal, 15 días).
 
-4. **Portal del Cliente y Modo Kiosco:**
+4. **Portal del Cliente:**
    - Consulta rápida de saldos, historial detallado de movimientos de la cuenta familiar, fecha de próximo pago y monto estimado.
-   - **Modo Kiosco:** Dispositivo compartido en mostrador donde los clientes acceden de forma segura utilizando un PIN corto para ver únicamente sus datos de forma privada.
 
 5. **Notificaciones Push y Centro de Mensajería:**
    - Envío de notificaciones inmediatas ante nuevos movimientos en la cuenta corriente.
@@ -70,7 +69,6 @@ katy-smart/
     ├── pages/              # Páginas del sistema estructuradas por rol/módulo
     │   ├── admin/          # Panel, reportes y configuraciones
     │   ├── dependiente/    # Cortes de caja, Pedidos y Recepción
-    │   ├── kiosco/         # Interfaz para consulta rápida del cliente
     │   └── shared/         # Notificaciones, Estados de Cuenta, etc.
     ├── store/              # Stores globales de Zustand (auth, offline, navegación, tema)
     ├── types/              # Tipos compartidos de TypeScript

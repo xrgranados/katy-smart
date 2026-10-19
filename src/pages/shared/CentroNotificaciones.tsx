@@ -113,7 +113,7 @@ export function CentroNotificaciones() {
     // Ordenar por fecha (más reciente primero)
     const sorted = [...notificaciones].sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
     
-    if (activeRole === 'admin') {
+    if (activeRole === 'administrador') {
       // El administrador ve todas las notificaciones del sistema para auditoría y control
       return sorted;
     }
@@ -379,7 +379,7 @@ export function CentroNotificaciones() {
             <h1 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">Centro de Notificaciones</h1>
           </div>
           <p className="text-sm text-slate-500 dark:text-slate-400">
-            Rol Activo: <strong className="text-purple-600 dark:text-purple-400 capitalize">{activeRole === 'admin' ? 'Dueño (Admin)' : activeRole}</strong>.
+            Rol Activo: <strong className="text-purple-600 dark:text-purple-400 capitalize">{activeRole === 'administrador' ? 'Dueño (Admin)' : activeRole}</strong>.
             Gestiona y visualiza avisos, ofertas y estados de cuenta en tiempo real.
           </p>
         </div>
@@ -413,7 +413,7 @@ export function CentroNotificaciones() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
         {/* COLUMNA BANDEJA DE NOTIFICACIONES UNIFICADA */}
-        <div className={`lg:col-span-${activeRole === 'admin' ? '7' : '12'} space-y-4`}>
+        <div className={`lg:col-span-${activeRole === 'administrador' ? '7' : '12'} space-y-4`}>
           <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
               <div className="flex items-center space-x-2">
@@ -486,7 +486,7 @@ export function CentroNotificaciones() {
                         <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
                           {getTipoLabel(notif.tipo)}
                         </span>
-                        {activeRole === 'admin' && (
+                        {activeRole === 'administrador' && (
                           <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300">
                             Para: {getDestinatarioLabel(notif.destinatario)}
                           </span>
@@ -531,7 +531,7 @@ export function CentroNotificaciones() {
         </div>
 
         {/* COLUMNA FORMULARIO DE REDACCIÓN DEL ADMINISTRADOR (SOLO ADMIN) */}
-        {activeRole === 'admin' && (
+        {activeRole === 'administrador' && (
           <div className="lg:col-span-5 space-y-6">
             <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
               <div className="flex items-center space-x-2 border-b border-slate-100 dark:border-slate-800 pb-4">

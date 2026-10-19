@@ -74,7 +74,7 @@ export const Pedidos: React.FC = () => {
   // Historial de empresas/repartidores para autocompletado
   const [repartidores, setRepartidores] = useState<string[]>(() => {
     const saved = localStorage.getItem('katy_smart_repartidores');
-    return saved ? JSON.parse(saved) : ['Repartidor Coca-Cola (Juan)', 'Distribuidora El Sol', 'Camión Bimbo', 'Sonia Express'];
+    return saved ? JSON.parse(saved) : ['Repartidor Coca-Cola (Juan)', 'Distribuidora El Sol', 'Camión Bimbo', 'Transportes López'];
   });
 
   // Autocompletado de proveedores
@@ -122,7 +122,7 @@ export const Pedidos: React.FC = () => {
         const semilla: PedidoPendiente[] = [
           {
             id: 'pedido-mock-1',
-            creado_por: 'Sonia - Dependiente',
+            creado_por: 'Matilde - Dependiente',
             fecha_pedido: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().split('T')[0],
             fecha_entrega_estimada: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0],
             estado: 'pendiente',
@@ -473,7 +473,7 @@ export const Pedidos: React.FC = () => {
       const pedidoId = crypto.randomUUID();
       const nuevoPedido: PedidoPendiente = {
         id: pedidoId,
-        creado_por: user?.nombre || 'Sonia - Dependiente',
+        creado_por: user?.nombre || 'Matilde - Dependiente',
         fecha_pedido: new Date().toISOString().split('T')[0],
         fecha_entrega_estimada: fechaEntrega || undefined,
         estado: 'pendiente',
@@ -540,7 +540,7 @@ export const Pedidos: React.FC = () => {
         fecha_pago: fechaPago || undefined,
         monto_pagado: montoPagado || undefined,
         empresa_despacho: repartidorNombre.trim() || undefined,
-        registrado_por: user?.nombre || 'Sonia - Dependiente',
+        registrado_por: user?.nombre || 'Matilde - Dependiente',
         timestamp: Date.now()
       };
 

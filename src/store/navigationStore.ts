@@ -10,21 +10,19 @@ interface NavigationState {
 export const useNavigationStore = create<NavigationState>((set) => {
   const getDefaultTabForRole = (role: UserRole): string => {
     switch (role) {
-      case 'admin':
+      case 'administrador':
         return 'dashboard';
       case 'dependiente':
         return 'corte-turno';
       case 'cliente':
         return 'mi-cuenta';
-      case 'kiosco':
-        return 'kiosco';
       default:
         return 'dashboard';
     }
   };
 
   return {
-    activeTab: 'dashboard', // Default initial tab
+    activeTab: 'dashboard',
     setActiveTab: (tab) => set({ activeTab: tab }),
     getDefaultTabForRole,
   };

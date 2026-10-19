@@ -1,45 +1,29 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { AppLayout } from './components/layout/AppLayout';
 import { useOfflineStore } from './store/offlineStore';
 import { useNavigationStore } from './store/navigationStore';
+import { useAuthStore } from './store/authStore';
 import { Dashboard } from './pages/admin/Dashboard';
 import { CorteCaja } from './pages/dependiente/CorteCaja';
 import { Pedidos } from './pages/dependiente/Pedidos';
 import { EstadoCuenta } from './pages/shared/EstadoCuenta';
-import { ConsultaKiosco } from './pages/kiosco/ConsultaKiosco';
 import { CentroNotificaciones } from './pages/shared/CentroNotificaciones';
-import { db } from './db/dexie';
+import { Login } from './pages/auth/Login';
+import { SkeletonCard } from './components/ui/Skeleton';
 import { 
-  Check, 
-  Trash2, 
   HelpCircle,
-  AlertCircle
+  Loader2
 } from 'lucide-react';
 
 function App() {
-  const { isOnline, pendingCount, updatePendingCount, setOnlineStatus } = useOfflineStore();
+  const { updatePendingCount } = useOfflineStore();
   const { activeTab } = useNavigationStore();
-  
-  // Estados para simulación interactiva
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const { isAuthenticated, isLoading, initializeAuth } = useAuthStore();
 
   useEffect(() => {
+    initializeAuth();
     updatePendingCount();
   }, []);
-
-  const showToast = (msg: string) => {
-    setSuccessMessage(msg);
-    setTimeout(() => setSuccessMessage(null), 4000);
-  };
-
-  const handleLimpiarCola = async () => {
-    await db.cortes_pendientes.clear();
-    await db.pedidos_pendientes.clear();
-    await db.movimientos_pendientes.clear();
-    await db.recepciones_pendientes.clear();
-    await updatePendingCount();
-    showToast('🗑️ Cola de IndexedDB limpiada con éxito.');
-  };
 
   // Renderizador condicional de páginas basado en la pestaña activa
   const renderActivePage = () => {
@@ -47,20 +31,19 @@ function App() {
       case 'dashboard':
         return <Dashboard />;
       case 'corte-turno':
+      case 'cortes':
         return <CorteCaja />;
       case 'pedidos':
         return <Pedidos />;
       case 'cuentas':
       case 'mi-cuenta':
         return <EstadoCuenta />;
-      case 'kiosco':
-        return <ConsultaKiosco />;
       case 'notificaciones':
         return <CentroNotificaciones />;
       case 'ayuda':
         return (
           <div className="max-w-2xl mx-auto text-center py-12 space-y-4">
-            <div className="w-16 h-16 bg-teal-50 dark:bg-teal-950/40 rounded-full flex items-center justify-center mx-auto text-teal-600 dark:text-teal-400">
+            <div className="w-16 h-16 bg-purple-50 dark:bg-purple-950/40 rounded-full flex items-center justify-center mx-auto text-purple-600 dark:text-purple-400">
               <HelpCircle className="w-8 h-8" />
             </div>
             <h3 className="font-bold text-lg text-slate-900 dark:text-white">Centro de Ayuda</h3>
@@ -76,47 +59,27 @@ function App() {
     }
   };
 
-  return (
-    <AppLayout>
-      {/* Toast Alert */}
-      {successMessage && (
-        <div className="fixed bottom-20 right-4 sm:bottom-6 sm:right-6 z-50 bg-slate-900 text-white dark:bg-purple-900 dark:text-purple-100 px-4 py-3 rounded-xl shadow-lg flex items-center space-x-2 border border-slate-700 dark:border-purple-800 transition-all">
-          <Check className="w-5 h-5 text-emerald-400" />
-          <span className="text-sm font-medium">{successMessage}</span>
-        </div>
-      )}
-
-      {/* BARRA DE CONTROL DE DEMO INTERACTIVA */}
-      <div className="mb-6 p-4 rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div className="flex items-center space-x-2 text-xs font-medium text-slate-600 dark:text-slate-400">
-          <AlertCircle className="w-4 h-4 text-purple-600" />
-          <span>
-            <strong>Simulador de Conectividad PWA:</strong> {isOnline ? '🟢 Conectado a Internet' : '🔴 Desconectado (Offline)'}
-          </span>
-        </div>
-        <div className="flex items-center gap-2">
-          {pendingCount > 0 && (
-            <button
-              onClick={handleLimpiarCola}
-              className="px-3 py-1.5 rounded-lg border border-rose-200 dark:border-rose-900/40 bg-rose-50 dark:bg-rose-950/25 text-rose-600 dark:text-rose-400 text-xs font-bold hover:bg-rose-100 flex items-center space-x-1"
-            >
-              <Trash2 className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Limpiar Dexie</span>
-            </button>
-          )}
-          <button
-            onClick={() => setOnlineStatus(!isOnline)}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shadow-sm flex items-center space-x-1.5 ${
-              isOnline 
-                ? 'bg-rose-600 text-white hover:bg-rose-700' 
-                : 'bg-emerald-600 text-white hover:bg-emerald-700'
-            }`}
-          >
-            <span>Simular {isOnline ? 'Ir Offline' : 'Ir Online'}</span>
-          </button>
+  // 1. Pantalla de carga con Skeleton Loader (Umbral de Doherty)
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-6 space-y-4 text-white">
+        <Loader2 className="w-10 h-10 animate-spin text-purple-500" />
+        <p className="text-xs text-slate-400 font-semibold tracking-wider uppercase">Iniciando Katy Smart...</p>
+        <div className="w-full max-w-sm">
+          <SkeletonCard rows={2} />
         </div>
       </div>
+    );
+  }
 
+  // 2. Pantalla de Autenticación si no hay sesión activa
+  if (!isAuthenticated) {
+    return <Login />;
+  }
+
+  // 3. Aplicación en Modo Producción con AppLayout
+  return (
+    <AppLayout>
       {/* RENDERIZAR PÁGINA ACTIVA */}
       <div className="animate-fade-in duration-300">
         {renderActivePage()}

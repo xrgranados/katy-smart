@@ -38,11 +38,13 @@ export interface MovimientoPendiente {
   id?: string;
   cliente_id: string;
   persona_id: string; // Puede ser el cliente principal o un familiar
+  persona_nombre?: string; // Nombre de quien pidió las cosas o abonó
   tipo: 'cargo' | 'abono';
   monto: number;
   fecha_hora: string;
-  registrado_por: string;
+  registrado_por: string; // Nombre del despachador o dependiente que atendió
   descripcion_items: string;
+  saldo_resultante?: number;
   timestamp: number;
 }
 

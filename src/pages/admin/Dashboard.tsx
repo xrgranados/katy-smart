@@ -43,7 +43,7 @@ export const Dashboard: React.FC = () => {
           {
             id: 'demo-1',
             caja_fisica_id: 'caja-principal-id',
-            dependiente_id: 'sonia-id',
+            dependiente_id: 'matilde-id',
             turno: 'manana',
             fecha: hoy,
             hora_inicio: new Date().toISOString(),
@@ -64,7 +64,7 @@ export const Dashboard: React.FC = () => {
           {
             id: 'demo-2',
             caja_fisica_id: 'caja-principal-id',
-            dependiente_id: 'sonia-id',
+            dependiente_id: 'matilde-id',
             turno: 'tarde',
             fecha: hoy,
             hora_inicio: new Date().toISOString(),
@@ -142,7 +142,7 @@ export const Dashboard: React.FC = () => {
       await db.cortes_pendientes.add({
         id: crypto.randomUUID(),
         caja_fisica_id: 'caja-principal-id',
-        dependiente_id: 'sonia-id',
+        dependiente_id: 'matilde-id',
         turno: 'tarde',
         fecha: fechaFin,
         hora_inicio: new Date().toISOString(),
@@ -185,7 +185,7 @@ export const Dashboard: React.FC = () => {
       const pagos = c.pagos?.reduce((s, p) => s + p.monto, 0) || 0;
       const esperado = 1000 - pagos; // Default Q1000
       const diferencia = (billetes + monedas) - esperado;
-      const depName = c.dependiente_id === 'sonia-id' ? 'Sonia' : 'Don Carlos (Admin)';
+      const depName = c.dependiente_id === 'matilde-id' ? 'Matilde' : 'Don Carlos (Admin)';
 
       csvContent += `"${c.fecha}","${c.turno}","${depName}",${billetes},${monedas},${pagos},${esperado},${diferencia},${claro},${medicina},${libreria},"${c.notas || ''}"\n`;
     });
@@ -302,7 +302,7 @@ export const Dashboard: React.FC = () => {
                 className="w-full py-1.5 px-3 rounded-lg text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 font-semibold"
               >
                 <option value="all">Todos los Dependientes</option>
-                <option value="sonia-id">Sonia (Mostrador)</option>
+                <option value="matilde-id">Matilde (Mostrador)</option>
                 <option value="admin-id">Don Carlos (Dueño)</option>
               </select>
             </div>
@@ -477,7 +477,7 @@ export const Dashboard: React.FC = () => {
                         <div className="flex items-center space-x-1.5">
                           <User className="w-4 h-4 text-slate-400 print:hidden" />
                           <span className="font-medium text-slate-800 dark:text-slate-200 print:text-black">
-                            {c.dependiente_id === 'sonia-id' ? 'Sonia' : 'Don Carlos (Admin)'}
+                            {c.dependiente_id === 'matilde-id' ? 'Matilde' : 'Don Carlos (Admin)'}
                           </span>
                         </div>
                       </td>
